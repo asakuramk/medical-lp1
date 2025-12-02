@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical RR - 医療現場の物語</title>
+    <meta name="description" content="医療現場における「あるある」や重要な「RR」を4コマ漫画で分かりやすく解説するプレゼンテーションページ。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+    </div>
+
+    <header class="hero-section">
+        <nav class="navbar">
+            <div class="logo">Medical RR</div>
+            <div class="nav-links">
+                <a href="#comic">漫画を見る</a>
+                <a href="#about">解説</a>
+            </div>
+        </nav>
+        <div class="hero-content">
+            <span class="badge">Medical Presentation</span>
+            <h1>医療現場の<br><span class="gradient-text">リアルな瞬間</span>を伝える</h1>
+            <p class="hero-subtitle">日々の業務に潜む「RR」を、4コマ漫画でユーモラスかつ真面目に考察します。</p>
+            <a href="#comic" class="cta-button">プレゼンテーション開始</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="comic" class="comic-section">
+            <div class="section-header">
+                <h2>Episode 01</h2>
+                <p>「夜勤明けのRR」</p>
+            </div>
+
+            <div class="comic-container">
+                <div class="comic-viewer">
+                    <img src="comic.png" alt="Medical RR 4コマ漫画" class="comic-image">
+                    <div class="comic-overlay">
+                        <button class="zoom-btn" aria-label="拡大表示">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                <line x1="11" y1="8" x2="11" y2="14"></line>
+                                <line x1="8" y1="11" x2="14" y2="11"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="presentation-section">
+            <div class="content-grid">
+                <div class="card info-card">
+                    <div class="icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                        </svg>
+                    </div>
+                    <h3>Situation</h3>
+                    <p>医療現場では、予期せぬ瞬間に「RR」が発生します。それは急変の予兆（Respiratory Rate）かもしれませんし、スタッフ間の「あるある」かもしれません。</p>
+                </div>
+                <div class="card info-card">
+                    <div class="icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                    </div>
+                    <h3>Insight</h3>
+                    <p>この漫画を通して、私たちは日々の業務を振り返り、より良い医療提供のためのコミュニケーションのきっかけを作りたいと考えています。</p>
+                </div>
+                <div class="card info-card">
+                    <div class="icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <h3>Action</h3>
+                    <p>笑いと共感、そして学びを。あなたのチームでもこの「RR」について話し合ってみませんか？</p>
+                </div>
+            </div>
+        </section>
+        <section id="game" class="game-section">
+            <div class="section-header">
+                <h2>Break Time</h2>
+                <p>「ほのぼのクリニック」で一休み</p>
+            </div>
+
+            <div class="game-container">
+                <div class="game-status-bar">
+                    <div class="happiness-meter">
+                        <span>元気度:</span>
+                        <div class="hearts" id="score-display">❤️❤️❤️</div>
+                    </div>
+                    <div class="turn-counter">患者さん: <span id="patient-count">1</span>/5</div>
+                </div>
+
+                <div class="game-main-area">
+                    <div class="patient-area">
+                        <div id="patient-sprite" class="patient-sprite"></div>
+                        <div class="dialogue-box">
+                            <p id="patient-dialogue">「先生、こんにちは...」</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-bar">
+                    <button class="action-btn" data-action="stethoscope">
+                        <span class="btn-icon">🩺</span>
+                        <span class="btn-label">聴診</span>
+                    </button>
+                    <button class="action-btn" data-action="medicine">
+                        <span class="btn-icon">💊</span>
+                        <span class="btn-label">お薬</span>
+                    </button>
+                    <button class="action-btn" data-action="bandage">
+                        <span class="btn-icon">🩹</span>
+                        <span class="btn-label">手当て</span>
+                    </button>
+                    <button class="action-btn" data-action="tea">
+                        <span class="btn-icon">🍵</span>
+                        <span class="btn-label">お茶</span>
+                    </button>
+                </div>
+
+                <div id="game-overlay" class="game-overlay hidden">
+                    <div class="overlay-content">
+                        <h3 id="overlay-title">診療終了！</h3>
+                        <p id="overlay-message">みんな元気になりました！</p>
+                        <button id="restart-btn" class="cta-button">もう一度診察する</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact-section">
+            <div class="section-header">
+                <h2>Contact</h2>
+                <p>お問い合わせ</p>
+            </div>
+            <div class="contact-container">
+                <form class="contact-form" onsubmit="event.preventDefault(); alert('送信しました（デモ）');">
+                    <div class="form-group">
+                        <label for="name">お名前</label>
+                        <input type="text" id="name" name="name" required placeholder="山田 太郎">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">メールアドレス</label>
+                        <input type="email" id="email" name="email" required placeholder="example@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">メッセージ</label>
+                        <textarea id="message" name="message" rows="4" required
+                            placeholder="ご感想やご質問をお書きください"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">送信する</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Medical RR Project. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

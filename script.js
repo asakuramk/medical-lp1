@@ -178,6 +178,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentPatientIndex = 0;
     let score = 0;
+    let mistakes = 0;
+    const MAX_MISTAKES = 3;
 
     const patientSprite = document.getElementById('patient-sprite');
     const patientDialogue = document.getElementById('patient-dialogue');
@@ -186,6 +188,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameOverlay = document.getElementById('game-overlay');
     const restartBtn = document.getElementById('restart-btn');
     const actionBtns = document.querySelectorAll('.action-btn');
+
+    // Sea of Blood elements
+    const seaOfBloodScreen = document.getElementById('sea-of-blood-screen');
+    const bloodRestartBtn = document.getElementById('blood-restart-btn');
 
     function updatePatient() {
         if (currentPatientIndex >= patients.length) {
@@ -225,6 +231,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 1500);
         } else {
             // Wrong treatment
+            mistakes++;
+
+            if (mistakes >= MAX_MISTAKES) {
+                triggerSeaOfBlood();
+                return;
+            }
+
             patientDialogue.textContent = '「それはちょっと違うかも...」';
             patientSprite.style.transform = 'translateX(-10px)';
             setTimeout(() => {
@@ -246,11 +259,60 @@ document.addEventListener('DOMContentLoaded', () => {
         gameOverlay.classList.remove('hidden');
     }
 
+    function triggerSeaOfBlood() {
+        seaOfBloodScreen.classList.remove('hidden');
+        // Force reflow
+        void seaOfBloodScreen.offsetWidth;
+        seaOfBloodScreen.classList.add('active');
+
+        // Play sad music
+        const music = document.getElementById('game-over-music');
+        if (music) {
+            music.currentTime = 0;
+            music.play().catch(e => console.log('Audio play failed:', e));
+        }
+
+        // Create blood drips
+        createBloodDrips();
+    }
+
+    function createBloodDrips() {
+        const numberOfDrips = 20;
+        for (let i = 0; i < numberOfDrips; i++) {
+            const drip = document.createElement('div');
+            drip.className = 'blood-drip';
+            drip.style.left = Math.random() * 100 + 'vw';
+            drip.style.animationDuration = (Math.random() * 2 + 1) + 's';
+            drip.style.animationDelay = Math.random() * 2 + 's';
+            seaOfBloodScreen.appendChild(drip);
+        }
+    }
+
     function restartGame() {
         currentPatientIndex = 0;
         score = 0;
+        mistakes = 0;
         updateScore();
         gameOverlay.classList.add('hidden');
+
+        // Stop music
+        const music = document.getElementById('game-over-music');
+        if (music) {
+            music.pause();
+            music.currentTime = 0;
+        }
+
+        // Reset Sea of Blood
+        seaOfBloodScreen.classList.remove('active');
+
+        // Remove drips after fade out
+        setTimeout(() => {
+            seaOfBloodScreen.classList.add('hidden');
+            // Remove all drips
+            const drips = seaOfBloodScreen.querySelectorAll('.blood-drip');
+            drips.forEach(drip => drip.remove());
+        }, 2000); // Wait for fade out
+
         updatePatient();
     }
 
@@ -263,6 +325,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (restartBtn) {
         restartBtn.addEventListener('click', restartGame);
+    }
+
+    if (bloodRestartBtn) {
+        bloodRestartBtn.addEventListener('click', restartGame);
     }
 
     // Initialize

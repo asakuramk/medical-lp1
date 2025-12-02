@@ -95,6 +95,10 @@
     display: none;
 }
 
+#main-content {
+    display: none;
+}
+
 @keyframes shake {
 
     0%,

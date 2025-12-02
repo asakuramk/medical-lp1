@@ -174,7 +174,12 @@
                     <p>ご質問・ご感想はこちらから</p>
                 </div>
                 <div class="contact-container">
-                    <form class="contact-form" onsubmit="event.preventDefault(); alert('送信しました（デモ）');">
+                    <form class="contact-form" action="https://formsubmit.co/m@llll.jp" method="POST">
+                        <!-- FormSubmit設定 -->
+                        <input type="hidden" name="_subject" value="医療RRページからのお問い合わせ">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_template" value="table">
+
                         <div class="form-group">
                             <label for="name">お名前</label>
                             <input type="text" id="name" name="name" required placeholder="山田 太郎">

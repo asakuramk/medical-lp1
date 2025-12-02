@@ -1,4 +1,44 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- PASSWORD PROTECTION ---
+    const CORRECT_PASSWORD = 'wakaayu';
+    const passwordScreen = document.getElementById('password-screen');
+    const mainContent = document.getElementById('main-content');
+    const passwordForm = document.getElementById('password-form');
+    const passwordInput = document.getElementById('password-input');
+    const passwordError = document.getElementById('password-error');
+
+    // Check if password was previously entered in this session
+    if (sessionStorage.getItem('authenticated') === 'true') {
+        showMainContent();
+    }
+
+    passwordForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const enteredPassword = passwordInput.value;
+
+        if (enteredPassword === CORRECT_PASSWORD) {
+            sessionStorage.setItem('authenticated', 'true');
+            showMainContent();
+        } else {
+            passwordError.textContent = 'パスワードが正しくありません';
+            passwordInput.value = '';
+            passwordInput.focus();
+
+            // Shake animation
+            passwordInput.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                passwordInput.style.animation = '';
+            }, 500);
+        }
+    });
+
+    function showMainContent() {
+        passwordScreen.style.display = 'none';
+        mainContent.classList.remove('hidden-content');
+        mainContent.style.display = 'block';
+    }
+
+    // --- EXISTING CODE BELOW ---
     // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {

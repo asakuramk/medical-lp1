@@ -269,11 +269,48 @@ document.addEventListener('DOMContentLoaded', () => {
         const music = document.getElementById('game-over-music');
         if (music) {
             music.currentTime = 0;
-            music.play().catch(e => console.log('Audio play failed:', e));
+            const playPromise = music.play();
+
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log('Audio file play failed, using fallback:', error);
+                    playSadSound();
+                });
+            }
+        } else {
+            playSadSound();
         }
 
         // Create blood drips
         createBloodDrips();
+    }
+
+    // Web Audio API Fallback for Sad Sound
+    function playSadSound() {
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return;
+
+            const ctx = new AudioContext();
+            const osc = ctx.createOscillator();
+            const gainNode = ctx.createGain();
+
+            osc.connect(gainNode);
+            gainNode.connect(ctx.destination);
+
+            // Sad sound: Low frequency, descending pitch
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(150, ctx.currentTime);
+            osc.frequency.linearRampToValueAtTime(100, ctx.currentTime + 2);
+
+            gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + 2);
+
+            osc.start();
+            osc.stop(ctx.currentTime + 2);
+        } catch (e) {
+            console.error('Web Audio API failed:', e);
+        }
     }
 
     function createBloodDrips() {

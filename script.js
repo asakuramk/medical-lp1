@@ -227,4 +227,55 @@ document.addEventListener('DOMContentLoaded', () => {
     if (patientSprite) {
         updatePatient();
     }
+
+    // --- CONTACT FORM SUBMISSION ---
+    const contactForm = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const formStatus = document.getElementById('form-status');
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbznPIsFzJA9XE7Rq7Wp_lOBsUxqR8B2jV55lChwYOJoOyHC2UrFJpodrSLsWW9eW_YZ/exec';
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // ボタンを無効化
+            submitBtn.disabled = true;
+            submitBtn.textContent = '送信中...';
+            formStatus.textContent = '';
+            formStatus.className = 'form-status';
+
+            // フォームデータを取得
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value
+            };
+
+            try {
+                // Google Apps Scriptに送信
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Google Apps Scriptは no-cors が必要
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                // 成功メッセージ（no-corsのため、レスポンスは読めない）
+                formStatus.textContent = '✓ 送信完了しました。ありがとうございます！';
+                formStatus.className = 'form-status success';
+                contactForm.reset();
+
+            } catch (error) {
+                // エラーメッセージ
+                formStatus.textContent = '✗ 送信に失敗しました。もう一度お試しください。';
+                formStatus.className = 'form-status error';
+            } finally {
+                // ボタンを再有効化
+                submitBtn.disabled = false;
+                submitBtn.textContent = '送信する';
+            }
+        });
+    }
 });

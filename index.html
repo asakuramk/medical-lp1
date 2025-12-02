@@ -174,12 +174,7 @@
                     <p>ご質問・ご感想はこちらから</p>
                 </div>
                 <div class="contact-container">
-                    <form class="contact-form" action="https://formsubmit.co/m@llll.jp" method="POST">
-                        <!-- FormSubmit設定 -->
-                        <input type="hidden" name="_subject" value="医療RRページからのお問い合わせ">
-                        <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_template" value="table">
-
+                    <form class="contact-form" id="contact-form">
                         <div class="form-group">
                             <label for="name">お名前</label>
                             <input type="text" id="name" name="name" required placeholder="山田 太郎">
@@ -193,7 +188,8 @@
                             <textarea id="message" name="message" rows="4" required
                                 placeholder="ご感想やご質問をお書きください"></textarea>
                         </div>
-                        <button type="submit" class="submit-btn">送信する</button>
+                        <button type="submit" class="submit-btn" id="submit-btn">送信する</button>
+                        <p id="form-status" class="form-status"></p>
                     </form>
                 </div>
             </section>

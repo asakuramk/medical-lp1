@@ -36,6 +36,32 @@ document.addEventListener('DOMContentLoaded', () => {
         passwordScreen.style.display = 'none';
         mainContent.classList.remove('hidden-content');
         mainContent.style.display = 'block';
+
+        // ログイン通知を送信
+        sendLoginNotification();
+    }
+
+    async function sendLoginNotification() {
+        try {
+            // IPアドレスを取得
+            const ipResponse = await fetch('https://api.ipify.org?format=json');
+            const ipData = await ipResponse.json();
+            const userIP = ipData.ip;
+
+            // User Agentを取得
+            const userAgent = navigator.userAgent;
+
+            // Google Apps Scriptに送信
+            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbznPIsFzJA9XE7Rq7Wp_lOBsUxqR8B2jV55lChwYOJoOyHC2UrFJpodrSLsWW9eW_YZ/exec';
+            await fetch(`${GOOGLE_SCRIPT_URL}?ip=${encodeURIComponent(userIP)}&userAgent=${encodeURIComponent(userAgent)}`, {
+                method: 'GET',
+                mode: 'no-cors'
+            });
+
+            console.log('Login notification sent:', userIP);
+        } catch (error) {
+            console.error('Failed to send login notification:', error);
+        }
     }
 
     // --- EXISTING CODE BELOW ---

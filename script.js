@@ -42,23 +42,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function sendLoginNotification() {
+        let userIP = '不明 (取得失敗)';
         try {
             // IPアドレスを取得
-            const ipResponse = await fetch('https://api.ipify.org?format=json');
-            const ipData = await ipResponse.json();
-            const userIP = ipData.ip;
+            try {
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                if (ipResponse.ok) {
+                    const ipData = await ipResponse.json();
+                    userIP = ipData.ip;
+                }
+            } catch (ipError) {
+                console.warn('IP address fetch failed:', ipError);
+            }
 
             // User Agentを取得
             const userAgent = navigator.userAgent;
 
+            console.log('Sending login notification for IP:', userIP);
+
             // Google Apps Scriptに送信
             const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbznPIsFzJA9XE7Rq7Wp_lOBsUxqR8B2jV55lChwYOJoOyHC2UrFJpodrSLsWW9eW_YZ/exec';
-            await fetch(`${GOOGLE_SCRIPT_URL}?ip=${encodeURIComponent(userIP)}&userAgent=${encodeURIComponent(userAgent)}`, {
+
+            // URLパラメータを構築
+            const params = new URLSearchParams({
+                ip: userIP,
+                userAgent: userAgent
+            });
+
+            await fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`, {
                 method: 'GET',
                 mode: 'no-cors'
             });
 
-            console.log('Login notification sent:', userIP);
+            console.log('Login notification request sent');
         } catch (error) {
             console.error('Failed to send login notification:', error);
         }
